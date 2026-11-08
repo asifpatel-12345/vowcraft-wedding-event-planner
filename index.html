@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VowCraft | Smart Event & Wedding Planner</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,800;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-icon"><i class="fa-solid fa-heart"></i></div>
+                <h2>Vow<span>Craft</span></h2>
+            </div>
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-tab="dashboard"><i class="fa-solid fa-house"></i> Overview</a>
+                <a href="#" class="nav-item" data-tab="guests"><i class="fa-solid fa-users"></i> RSVP & Guestlist</a>
+                <a href="#" class="nav-item" data-tab="budget"><i class="fa-solid fa-calculator"></i> Budget Tracker</a>
+                <a href="#" class="nav-item" data-tab="timeline"><i class="fa-solid fa-clock-rotate-left"></i> Itinerary Timeline</a>
+                <a href="#" class="nav-item" data-tab="seating"><i class="fa-solid fa-chair"></i> Seating Allocation</a>
+            </nav>
+            <div class="sidebar-card">
+                <i class="fa-solid fa-crown"></i>
+                <h4>Premium Planner</h4>
+                <p>All planning modules unlocked.</p>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="app-header">
+                <div class="event-headline">
+                    <h1>Aarav & Ananya's Grand Wedding</h1>
+                    <p class="event-meta"><i class="fa-solid fa-location-dot"></i> Palace Grounds, Jaipur | <i class="fa-solid fa-calendar"></i> Dec 18, 2026</p>
+                </div>
+                <div class="header-actions">
+                    <button class="primary-btn" onclick="openRsvpModal()"><i class="fa-solid fa-user-plus"></i> Add New Guest</button>
+                </div>
+            </header>
+
+            <!-- Countdown Hero -->
+            <div class="hero-countdown-card">
+                <div class="hero-text">
+                    <span class="badge">Countdown to Big Day</span>
+                    <h2>Every detail crafted to perfection</h2>
+                </div>
+                <div class="timer-grid">
+                    <div class="timer-box"><span id="days">00</span><label>Days</label></div>
+                    <div class="timer-box"><span id="hours">00</span><label>Hours</label></div>
+                    <div class="timer-box"><span id="minutes">00</span><label>Mins</label></div>
+                    <div class="timer-box"><span id="seconds">00</span><label>Secs</label></div>
+                </div>
+            </div>
+
+            <!-- View 1: Overview Dashboard -->
+            <div class="content-view active" id="dashboardView">
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon pink"><i class="fa-solid fa-envelope"></i></div>
+                        <div>
+                            <span class="label">Total Invites</span>
+                            <h3 id="statTotalGuests">0</h3>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon green"><i class="fa-solid fa-circle-check"></i></div>
+                        <div>
+                            <span class="label">Confirmed RSVPs</span>
+                            <h3 id="statConfirmedGuests">0</h3>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon gold"><i class="fa-solid fa-wallet"></i></div>
+                        <div>
+                            <span class="label">Estimated Budget</span>
+                            <h3 id="statTotalBudget">₹15,00,000</h3>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon purple"><i class="fa-solid fa-utensils"></i></div>
+                        <div>
+                            <span class="label">Dietary Preferences</span>
+                            <h3 id="statVegRatio">0% Veg</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="two-column-grid">
+                    <div class="glass-card">
+                        <h3>Recent Guest RSVPs</h3>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Guest Name</th>
+                                        <th>Category</th>
+                                        <th>Status</th>
+                                        <th>Diet</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentRsvpBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="glass-card">
+                        <h3>Budget Distribution</h3>
+                        <div class="budget-progress-list" id="budgetProgressList"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View 2: RSVP & Guests -->
+            <div class="content-view" id="guestsView">
+                <div class="glass-card">
+                    <div class="card-toolbar">
+                        <h3>Guest Directory & Status</h3>
+                        <div class="toolbar-controls">
+                            <input type="text" id="guestSearch" class="cyber-input" placeholder="Search by name...">
+                            <select id="guestFilter" class="cyber-select">
+                                <option value="all">All Guests</option>
+                                <option value="Confirmed">Confirmed</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Declined">Declined</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Side / Category</th>
+                                    <th>RSVP Status</th>
+                                    <th>Meal Choice</th>
+                                    <th>Plus-Ones</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="fullGuestBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View 3: Budget Tracker -->
+            <div class="content-view" id="budgetView">
+                <div class="glass-card">
+                    <div class="card-toolbar">
+                        <h3>Expense Breakdown</h3>
+                        <button class="primary-btn" onclick="openExpenseModal()"><i class="fa-solid fa-plus"></i> Add Expense</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Estimated Cost</th>
+                                    <th>Actual Spent</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="budgetTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View 4: Timeline -->
+            <div class="content-view" id="timelineView">
+                <div class="glass-card">
+                    <h3>Wedding Itinerary</h3>
+                    <div class="timeline-stepper" id="timelineContainer"></div>
+                </div>
+            </div>
+
+            <!-- View 5: Seating -->
+            <div class="content-view" id="seatingView">
+                <div class="glass-card">
+                    <h3>Table & Seating Arrangement</h3>
+                    <div class="seating-grid" id="seatingGrid"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- RSVP Modal -->
+    <div class="modal-overlay" id="rsvpModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Guest RSVP Entry</h3>
+                <button class="close-btn" onclick="closeModal('rsvpModal')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="rsvpForm">
+                <div class="form-group">
+                    <label>Guest Name</label>
+                    <input type="text" id="modalGuestName" class="cyber-input" required placeholder="e.g. Rahul Sharma">
+                </div>
+                <div class="form-group">
+                    <label>Category / Party</label>
+                    <select id="modalGuestCategory" class="cyber-select">
+                        <option value="Groom Side">Groom Side</option>
+                        <option value="Bride Side">Bride Side</option>
+                        <option value="VIP Friend">VIP Friend</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>RSVP Status</label>
+                    <select id="modalGuestStatus" class="cyber-select">
+                        <option value="Confirmed">Confirmed</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Declined">Declined</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Diet Preference</label>
+                    <select id="modalGuestDiet" class="cyber-select">
+                        <option value="Vegetarian">Vegetarian</option>
+                        <option value="Non-Veg">Non-Veg</option>
+                        <option value="Jain">Jain</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Plus-Ones</label>
+                    <input type="number" id="modalGuestPlusOne" class="cyber-input" value="0" min="0" max="5">
+                </div>
+                <button type="submit" class="primary-btn full-width">Save Guest Record</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"><i class="fa-solid fa-circle-check"></i> <span id="toastMsg">Success</span></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
